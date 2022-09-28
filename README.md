@@ -12,3 +12,9 @@ Project List:
   * [ ] Kombinasyon kilidi/Combination Lock
   * [ ] Hesap Makinası/ Calculator
   * [ ] Servo Motor ile Güneş Takibi/ Solar Detechtor
+
+
+### KAZANANLAR:
+* Abdullah Memiş Belikırık
+* Ahmet Burak Imal
+* Sude Ölmez
