@@ -1,0 +1,199 @@
+#include <LiquidCrystal.h>
+#include <Keypad.h>
+
+
+LiquidCrystal lcd(5,4,3,2,A4,A5);
+
+const byte satirSayisi= 4;
+const byte sutunSayisi= 4;
+char tuslar[4][4]=
+{
+{'1', '2', '3', 'A'}, 
+{'4', '5', '6', 'B'}, 
+{'7', '8', '9', 'C'}, 
+{'*', '0', '#', 'D'} 
+};
+byte satirPinleri[satirSayisi] = {13,12,11,10};
+byte sutunPinleri[sutunSayisi]= {9,8,7,6}; 
+
+Keypad tusTakimi= Keypad(makeKeymap(tuslar),
+                         satirPinleri, 
+                         sutunPinleri, 
+                         satirSayisi,
+						sutunSayisi);
+
+char key,action;
+boolean result=false;
+int num1,num2,number;
+int p=0;
+
+void islemler(){
+  lcd.setCursor(p,1);
+
+  if(key=='1'){
+    Serial.println("button 1");
+    if(number==0) {number=1;
+                  lcd.print(number);}
+    else {number=(number*10)+1;
+         lcd.print('1');}
+  
+    }
+  
+  else if(key=='2'){
+    Serial.println("button 2");
+    if(number==0) {number=2;
+                  lcd.print(number);}
+    else {number=(number*10)+2;
+         lcd.print('2');}
+ 
+    }
+  
+  else if(key=='3'){
+    Serial.println("button 3");
+    if(number==0) {number=3;
+                  lcd.print(number);}
+    else {number=(number*10)+3;
+         lcd.print(number);}
+  
+    }
+  
+  else if(key=='4'){
+    Serial.println("button 4");
+    if(number==0) {num1=4;
+                  lcd.print(number);}
+    else {num1=(number*10)+4;
+         lcd.print('4');}
+  
+    }
+  
+  else if(key=='5'){
+    Serial.println("button 5");
+    if(number==0) {number=5;
+                  lcd.print(number);}
+    else {number=(number*10)+5;
+         lcd.print('5');}
+  
+    }
+  
+  else if(key=='6'){
+    Serial.println("button 6");
+    if(number==0) {number=6;
+                  lcd.print(number);}
+    else {number=(number*10)+6;
+         lcd.print('6');}
+  
+    }
+  
+  else if(key=='7'){
+    Serial.println("button 7");
+    if(number==0) {number=7;
+                  lcd.print(number);}
+    else {number=(number*10)+7;
+         lcd.print('7');}
+  
+    }
+  
+  else if(key=='8'){
+    Serial.println("button 8");
+    if(number==0){ number=8;
+                 lcd.print(number);}
+    else {number=(number*10)+8;
+         lcd.print('8');}
+  
+    }
+  
+  else if(key=='9'){
+    Serial.println("button ");
+    if(number==0) {number=9;
+                  lcd.print(number);}
+    else {number=(number*10)+9;
+         lcd.print('9');}
+  
+    }
+  
+  else if(key=='0'){
+    Serial.println("button 0");
+    if(number==0) {number=0;
+                  lcd.print(number);}
+    else {number=(number*10);
+         lcd.print('0');}
+  
+    }
+  
+  else if(key=='#'){
+    {Serial.println("Button Equal"); 
+    num2=number;
+     result = true;
+    return;}}
+    
+  else if (key=='*') 
+    {Serial.println("Button Cancel");
+     number=num1=num2=0; 
+     result=false;}
+    
+  else if(key=='A'||key=='B'||key=='C'||key=='D'){
+    p++;
+    lcd.setCursor(p,1);
+    num1=number;
+     number=0;
+    if(key=='A'){
+    Serial.println("Addition");
+    action='+';
+    lcd.print('+');}
+    else if(key=='B'){
+    Serial.println("Subtraction");
+    action='-';
+    lcd.print('-');}
+    else if(key=='C'){
+    Serial.println("Multiplication");
+    action='*';
+    lcd.print('*');}
+    else if(key=='D'){
+    Serial.println("Devesion");
+    action='/';
+    lcd.print('/');}
+    p++;
+    lcd.setCursor(p,1);
+  }
+  p++;
+}
+
+void hesaplama(){
+  if(action=='+'){number=num1+num2;}
+  else if(action=='-'){number=num1-num2;}
+  else if(action=='*'){number=num1*num2;}
+  else if(action=='/'){number=num1/num2;}
+}
+
+void sonuc(){
+  lcd.setCursor(p,1);
+  Serial.println(number);
+  if (result==true)
+  {lcd.print("="); 
+  lcd.print(number);}
+}
+
+
+void setup()
+{
+  Serial.begin(9600);
+  lcd.setCursor(0,0);
+  lcd.begin(16, 2); 
+  lcd.print("GREAT CALCULATOR");
+  delay(2000);
+  lcd.clear();
+}
+
+void loop()
+{
+  key = tusTakimi.getKey(); 
+
+  if (key!=NO_KEY){
+    islemler();}
+
+  if (result==true){
+    hesaplama();}
+
+sonuc(); 
+ 
+}
